@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block title %}{{ automation_name }}{% endblock %}
+{% block content %}
+
+<div class="card-params">
+    <h1>{{ automation_name }}</h1>
+    
+    <form method="POST" onsubmit="showLoading()">
+		<div class="form-group">
+            <label for="client">Environment</label>
+
+            <select name="client" id="client" required>
+                <option value="" disabled selected>
+                    Select environment
+                </option>
+				
+				<option>BUPA Live</option>
+				<option>Nuffield Live</option>
+				<option>Onebright Live</option>
+            </select>
+
+            <small>Select where this automation will run</small>
+        </div>
+
+        <div class="form-group">
+            <label>Enter the Patient ID</label>
+            <input name="patient_id" placeholder="Patient ID" required>
+			<small> Patient ID</small>
+        </div>
+
+        <div class="form-group">
+            <label for="ticket">LUMEON Ticket ID</label>
+
+            <input
+                id="ticket"
+                name="modified_by_function"
+                placeholder="e.g. LUMEON-12345"
+                required
+            >
+
+            <small>For audit and tracking</small>
+        </div>
+
+        <div class="buttons">
+
+            <button type="submit" class="run-btn" id="runBtn">
+                ▶ Run Automation
+            </button>
+
+            <a href="{{ url_for('home') }}" class="link-btn">
+                Home
+            </a>
+
+        </div>
+
+
+        <div id="loading">
+            <div class="spinner"></div>
+            <p>Running automation… Please wait</p>
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+    function showLoading() {
+        document.getElementById("loading").style.display = "block";
+        document.getElementById("runBtn").disabled = true;
+        return true;
+    }
+</script>
+
+{% endblock %}

@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+{% block title %}Result{% endblock %}
+{% block content %}
+
+<div class="card result-card">
+
+    <h1>{{ automation_name }}</h1>
+
+    <div class="result-header">
+        ✅ Automation Completed
+    </div>
+
+    <p class="result-subtitle">
+        Your automation ran successfully.
+    </p>
+	
+	{% if automation_name == "Worklists Backup" or automation_name == "GDPR" or automation_name == "New Leaver" %}
+        {% if success %}
+            <h3>Output/Generated Files</h3>
+            <div class="success">
+                <pre>{{ output }}</pre>
+            </div>
+        {% else %}
+            <div class="error">
+                <pre>{{ output }}</pre>
+            </div>
+        {% endif %}
+
+	{% else %}
+	
+	
+		<!-- Status Box -->
+		<div class="status-box success-box">
+
+			<div class="status-item">
+				<span class="label">Environment</span>
+				<span class="value">{{ folder_name }}</span>
+			</div>
+
+			<div class="status-item">
+				<span class="label">Database</span>
+				<span class="value">Connected</span>
+			</div>
+
+		</div>
+
+		<!-- Output Files -->
+		<h3>Generated Files</h3>
+
+
+        <div class="file-list">
+
+            {% if implementation_path and rollback_path %}
+                <div class="file-item">
+                    <div>
+                        📄 Implementation Script
+                    </div>
+
+                    <button onclick="copyText('{{ implementation_path }}', this)">
+                        Copy Path
+                    </button>
+                </div>
+
+                <div class="file-item">
+                    <div>
+                        🔄 Rollback Script
+                    </div>
+
+                    <button onclick="copyText('{{ rollback_path }}', this)">
+                        Copy Path
+                    </button>
+                </div>
+            {% else %}
+                <div class="file-item no-files">
+                    ⚠️ No matching records were found. No scripts generated!!
+                </div>
+
+            {% endif %}
+
+        </div>
+    {% endif %}
+
+
+    <!-- Actions -->
+    <div class="buttons result-actions">
+        <a href="{{ url_for('run_automation', automation_name=automation_name) }}"
+           class="link-btn">
+            Back
+        </a>
+
+        <a href="{{ url_for('home') }}" class="link-btn">
+            Home
+        </a>
+    </div>
+
+</div>
+
+
+<script>
+function copyText(text, btn) {
+    navigator.clipboard.writeText(text).then(() => {
+        btn.textContent = 'Copied';
+        setTimeout(() => {
+            btn.textContent = 'Copy Path';
+        }, 2000);
+    }).catch(err => {
+        console.error('Failed to copy: ', err);
+        btn.textContent = 'Failed ❌';
+        setTimeout(() => {
+            btn.textContent = 'Copy Path';
+        }, 2000);
+    });
+}
+</script>
+
+{% endblock %}

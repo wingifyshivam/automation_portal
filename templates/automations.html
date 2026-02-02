@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+{% block title %} Automation Portal {% endblock %}
+{% block content %}
+
+<div class="card">
+    
+    <h1>Automation Portal</h1>
+    <div class="automation-grid">
+        {% for name in automations %}
+            <a href="/run/{{ name }}" class="automation-card">
+                <div class="icon">⚙️</div>
+                <div class="name">{{ name }}</div>
+                <!--<div class="run-text">Run Automation →</div>-->
+            </a>
+        {% endfor %}
+    </div>
+    <!--
+    <ul>
+      {% for name in automations %}
+        <li><a href="/run/{{ name }}">{{ name }}</a></li>
+      {% endfor %}
+    </ul>
+    -->
+</div>
+{% endblock %}
