@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}{{ automation_name }}{% endblock %}
+{% block content %}
+
+<div class="card-params">
+    <h1>⚙ {{ automation_name }}</h1>
+    <!--<p class="subtitle">Configure and run this automation</p>-->
+
+    <form method="POST" onsubmit="return showLoading()">
+
+        <!-- Environment -->
+        <div class="form-group">
+            <label for="client">Environment</label>
+
+            <select name="client" id="client" required>
+                <option value="" disabled selected>
+                    Select environment
+                </option>
+
+                <optgroup label="BUPA">
+                    <option>BUPA Live</option>
+                    <option>BUPA UAT</option>
+                </optgroup>
+
+                <optgroup label="Newmedica">
+                    <option>Newmedica Live</option>
+                    <option>Newmedica UAT</option>
+                </optgroup>
+
+                <optgroup label="Onebright">
+                    <option>Onebright Live</option>
+                    <option>Onebright UAT</option>
+                </optgroup>
+
+                <optgroup label="Nuffield">
+                    <option>Nuffield Live</option>
+                    <option>Nuffield UAT</option>
+                </optgroup>
+            </select>
+
+            <small>Select where this automation will run</small>
+        </div>
+
+
+        <!-- SQL -->
+        <div class="form-group">
+            <label for="query">SQL Query</label>
+
+            <textarea
+                id="query"
+                name="query"
+                placeholder="Enter SQL worklist query..."
+                rows="5"
+                required
+            ></textarea>
+
+            <small>Used to fetch worklist data</small>
+        </div>
+
+
+        <!-- Ticket -->
+        <div class="form-group">
+            <label for="ticket">LUMEON Ticket ID</label>
+
+            <input
+                id="ticket"
+                name="modified_by_function"
+                placeholder="e.g. LUMEON-12345"
+                required
+            >
+
+            <small>For audit and tracking</small>
+        </div>
+
+
+        <!-- Buttons -->
+        <div class="buttons">
+
+            <button type="submit" class="run-btn" id="runBtn">
+                ▶ Run Automation
+            </button>
+
+            <a href="{{ url_for('home') }}" class="link-btn">
+                Home
+            </a>
+
+        </div>
+
+
+        <!-- Loading -->
+        <div id="loading">
+            <div class="spinner"></div>
+            <p>Running automation… Please wait</p>
+        </div>
+
+    </form>
+
+</div>
+
+
+<script>
+
+function showLoading() {
+
+    document.getElementById("loading").style.display = "block";
+
+    // Disable button to prevent double submit
+    document.getElementById("runBtn").disabled = true;
+
+    return true;
+}
+
+</script>
+
+{% endblock %}
